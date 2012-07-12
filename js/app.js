@@ -6,18 +6,22 @@ $(document).bind("mobileinit", function(){
 
 
 
-		$(function(){
+	$('div[data-role=page]').live('pageshow',function(){
+
+$(function(){
 			var menuStatus;
 			
 			
 			// Show menu
 			$("a.showMenu").click(function(){
-				if(menuStatus != true){				
+				if(menuStatus != true){
+				$("#menu").addClass('show');
 				$(".ui-page-active").animate({
-					marginLeft: "165px",
+					marginLeft: "250px",
 				  }, 300, function(){menuStatus = true});
 				  return false;
 				  } else {
+				$("#menu").removeClass('show');
 					$(".ui-page-active").animate({
 					marginLeft: "0px",
 				  }, 300, function(){menuStatus = false});
@@ -37,7 +41,7 @@ $(document).bind("mobileinit", function(){
 			$('.pages').live("swiperight", function(){
 				if (!menuStatus){	
 				$(".ui-page-active").animate({
-					marginLeft: "165px",
+					marginLeft: "250px",
 				  }, 300, function(){menuStatus = true});
 				  }
 			});
@@ -48,22 +52,34 @@ $(document).bind("mobileinit", function(){
 			});
 			
 			// Menu behaviour
-			$("#menu li a").click(function(){
+			$("#menu a li").click(function(){
 				var p = $(this).parent();
 				if($(p).hasClass('active')){
-					$("#menu li").removeClass('active');
+					$("#menu a").removeClass('active');
+					if (menuStatus){	
+					$("#menu").removeClass('show');
+				$(".ui-page-active").animate({
+					marginLeft: "0px",
+				  }, 300, function(){menuStatus = false});
+				  };
 				} else {
-					$("#menu li").removeClass('active');
+					$("#menu a").removeClass('active');
 					$(p).addClass('active');
+					if (menuStatus){	
+					$("#menu").removeClass('show');
+				$(".ui-page-active").animate({
+					marginLeft: "0px",
+				  }, 300, function(){menuStatus = false});
+				  }
 				}
 			});
-		
-			// Tabs 
-			$('div[data-role="navbar"] a').live('click', function () {
-				$(this).addClass('ui-btn-active');
-				$('div.content_div').hide();
-				$('div#' + $(this).attr('data-href')).show();
-			});
+
+		});
+	
+	});
+
+
+
 
 
 });	
